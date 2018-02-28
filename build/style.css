@@ -1,5 +1,11 @@
 body {
+  padding: 20px;
   background-color: salmon;
+  font-family: "Avenir"
+}
+
+select {
+  margin: 10px;
 }
 
 #options {

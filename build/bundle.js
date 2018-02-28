@@ -182,7 +182,7 @@ const addElement = function(parentId, childTag, text){
 const addImage = function(parentId, childTag, url){
   const parent = document.getElementById(parentId);
   const child = document.createElement(childTag);
-  child.innerHTML = '<img src="' + url + '" alt="national flag" width="250px"/>';
+  child.innerHTML = '<img src="' + url + '" alt="national flag" width="250px" height="150px"/>';
   parent.appendChild(child);
 }
 
