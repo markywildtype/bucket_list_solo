@@ -9,11 +9,14 @@ request.addEventListener('load', function(){
   const countries = JSON.parse(jsonString)
 
   populateSubRegionList(countries)
-  console.log(countries);
 
   const dropdownSR = document.getElementById('options');
+
   dropdownSR.addEventListener('change', onSRChange)
   const dropdownCountries = document.getElementById('countries');
+  dropdownCountries.style.display = "none";
+  const countriesLabel = document.getElementById('country-label')
+  countriesLabel.style.display = "none";
   dropdownCountries.addEventListener('change', onCountriesChange);
 
 });
@@ -32,25 +35,12 @@ const populateSubRegionList = function(array){
   fillDropdown(subregionArray.sort(), 'options');
 }
 
-// const populateCountryList = function(array, filterArray){
-//   countryArray = [];
-//     array.forEach(function(item){
-//
-//     });
-// }
-
-const fillDropdown = function(array, parentId){
-  const dropdown = document.getElementById(parentId);
-  dropdown.innerText = "";
-  array.forEach(function(item){
-    const option = document.createElement('option');
-    option.innerText = item;
-    option.value = item;
-    dropdown.appendChild(option);
-  });
-}
-
+//Dropdown 2:
 const onSRChange = function(){
+  const countryDropdown = document.getElementById('countries');
+  countryDropdown.style.display = "inline-block";
+  const countryLabel = document.getElementById('country-label');
+  countryLabel.style.display = "inline-block";
   const countriesJson = localStorage.getItem('all countries');
   const countries = JSON.parse(countriesJson);
   const countryArray = [];
@@ -61,6 +51,33 @@ const onSRChange = function(){
     }
   });
   fillDropdown(countryArray, 'countries');
+}
+
+//Filling dropdowns
+const fillDropdown = function(array, parentId){
+  const dropdown = document.getElementById(parentId);
+  dropdown.innerHTML = "<option selected disabled>Choose:</option>";
+  array.forEach(function(item){
+    const option = document.createElement('option');
+    option.innerText = item;
+    option.value = item;
+    dropdown.appendChild(option);
+  });
+}
+
+const onCountriesChange = function(){
+  getCountryDetails(this.value);
+}
+
+const getCountryDetails = function(value){
+  const countriesJson = localStorage.getItem('all countries');
+  const countries = JSON.parse(countriesJson);
+  countries.forEach(function(country){
+    if(country.name === value){
+      console.log(country);
+      // renderCountryDetails(country);
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', app);
