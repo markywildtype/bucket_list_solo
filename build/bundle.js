@@ -83,13 +83,13 @@ request.addEventListener('load', function(){
   populateSubRegionList(countries)
 
   const dropdownSR = document.getElementById('options');
+  dropdownSR.addEventListener('change', onSRChange);
 
-  dropdownSR.addEventListener('change', onSRChange)
   const dropdownCountries = document.getElementById('countries');
-  dropdownCountries.style.display = "none";
-  const countriesLabel = document.getElementById('country-label')
-  countriesLabel.style.display = "none";
   dropdownCountries.addEventListener('change', onCountriesChange);
+
+  const addButton = document.getElementById('button');
+  button.addEventListener('click', onButtonClick);
 
 });
 request.send();
@@ -110,9 +110,9 @@ const populateSubRegionList = function(array){
 //Dropdown 2:
 const onSRChange = function(){
   const countryDropdown = document.getElementById('countries');
-  countryDropdown.style.display = "inline-block";
+  countryDropdown.style.display = "block";
   const countryLabel = document.getElementById('country-label');
-  countryLabel.style.display = "inline-block";
+  countryLabel.style.display = "block";
   const countriesJson = localStorage.getItem('all countries');
   const countries = JSON.parse(countriesJson);
   const countryArray = [];
@@ -123,6 +123,10 @@ const onSRChange = function(){
     }
   });
   fillDropdown(countryArray, 'countries');
+}
+
+const onCountriesChange = function(){
+  getCountryDetails(this.value);
 }
 
 //Filling dropdowns
@@ -137,10 +141,7 @@ const fillDropdown = function(array, parentId){
   });
 }
 
-const onCountriesChange = function(){
-  getCountryDetails(this.value);
-}
-
+//Populate country details page:
 const getCountryDetails = function(value){
   const countriesJson = localStorage.getItem('all countries');
   const countries = JSON.parse(countriesJson);
@@ -152,14 +153,25 @@ const getCountryDetails = function(value){
 }
 
 const renderCountryDetails = function(country){
-  console.log(country);
+  const article = document.getElementById('country-details');
+  article.innerText = "";
   addElement('country-details', 'p', country.name);
   addImage('country-details', 'p', country.flag);
   addElement('country-details', 'p', "Capital: " + country.capital)
   addElement('country-details', 'p', "Currency: " + country.currencies[0].name)
   addElement('country-details', 'p', "Population: " + country.population);
+  const button = document.getElementById('button');
+  button.style.display = 'inline-block';
+  button.value = country.name;
+
 }
 
+//Button function:
+const onButtonClick = function(){
+  console.log(this.value);
+}
+
+//Helper functions:
 const addElement = function(parentId, childTag, text){
   const parent = document.getElementById(parentId);
   const child = document.createElement(childTag);
@@ -168,7 +180,6 @@ const addElement = function(parentId, childTag, text){
 }
 
 const addImage = function(parentId, childTag, url){
-  console.log(url);
   const parent = document.getElementById(parentId);
   const child = document.createElement(childTag);
   child.innerHTML = '<img src="' + url + '" alt="national flag" width="250px"/>';
