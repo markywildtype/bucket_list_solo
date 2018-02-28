@@ -146,11 +146,35 @@ const getCountryDetails = function(value){
   const countries = JSON.parse(countriesJson);
   countries.forEach(function(country){
     if(country.name === value){
-      console.log(country);
-      // renderCountryDetails(country);
+      renderCountryDetails(country);
     }
   });
 }
+
+const renderCountryDetails = function(country){
+  console.log(country);
+  addElement('country-details', 'p', country.name);
+  addImage('country-details', 'p', country.flag);
+  addElement('country-details', 'p', "Capital: " + country.capital)
+  addElement('country-details', 'p', "Currency: " + country.currencies[0].name)
+  addElement('country-details', 'p', "Population: " + country.population);
+}
+
+const addElement = function(parentId, childTag, text){
+  const parent = document.getElementById(parentId);
+  const child = document.createElement(childTag);
+  child.innerText = text;
+  parent.appendChild(child);
+}
+
+const addImage = function(parentId, childTag, url){
+  console.log(url);
+  const parent = document.getElementById(parentId);
+  const child = document.createElement(childTag);
+  child.innerHTML = '<img src="' + url + '" alt="national flag" width="250px"/>';
+  parent.appendChild(child);
+}
+
 
 document.addEventListener('DOMContentLoaded', app);
 
